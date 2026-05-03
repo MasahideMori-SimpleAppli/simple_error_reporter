@@ -9,10 +9,6 @@ import 'package:simple_https_service/simple_https_service.dart';
 ///
 /// (ja) ネイティブデバイス用の、エラー報告のためのクラスです。
 /// こちらは自己署名証明書の利用をサポートしています。
-///
-/// Author Masahide Mori
-///
-/// First edition creation date 2025-05-04 18:29:14
 class ErrorReporterForNative {
   static final ErrorReporterForNative _instance =
       ErrorReporterForNative._internal();

@@ -7,10 +7,6 @@ import 'package:simple_https_service/simple_https_service.dart';
 /// (ja) ErrorReporter および ErrorReporterForNative 用のシングルトン設定クラスです。
 /// simple_https_service のグローバル RetryConfig に依存せず、
 /// エラーレポーターのリトライ動作を独立して制御できます。
-///
-/// Author Masahide Mori
-///
-/// First edition creation date 2026-05-03 00:00:00
 class ErrorReporterConfig {
   static final ErrorReporterConfig _instance = ErrorReporterConfig._internal();
 

@@ -5,10 +5,6 @@ import 'package:simple_https_service/simple_https_service.dart';
 /// (en) A general purpose error reporting class.
 ///
 /// (ja) 汎用的な、エラー報告のためのクラスです。
-///
-/// Author Masahide Mori
-///
-/// First edition creation date 2025-05-04 18:27:47
 class ErrorReporter {
   static final ErrorReporter _instance = ErrorReporter._internal();
 
