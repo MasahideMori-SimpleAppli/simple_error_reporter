@@ -4,11 +4,28 @@
 /// (ja) ErrorReporter、及びErrorReporterForNativeで利用される
 /// 基本的なエラー内容を格納するためのオブジェクトです。
 class ErrorReportObj {
+  /// (en) Frontend app version.
+  /// (ja) フロントエンドのアプリバージョン。
   final String appVersion;
+
+  /// (en) The error message.
+  /// (ja) エラーメッセージ。
   final String errorMsg;
+
+  /// (en) The stacktrace.
+  /// (ja) スタックトレース。
   final String? stackTrace;
+
+  /// (en) Timestamp in UTC ISO 8601 format.
+  /// (ja) UTC の ISO 8601 形式のタイムスタンプ。
   final String timestamp;
+
+  /// (en) Additional information common to this app added during initialization.
+  /// (ja) 初期化時に追加されるアプリ共通の付加情報。
   final Map<String, dynamic>? extraInfo;
+
+  /// (en) Additional information added when reporting an individual error.
+  /// (ja) 個別エラー報告時に追加される付加情報。
   final Map<String, dynamic>? customExtraInfo;
 
   /// * [appVersion] : Frontend app version.

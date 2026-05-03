@@ -1,3 +1,10 @@
+## 1.0.1 (2026-05-03)
+
+* Fixed circular import: `error_reporter.dart` and `error_reporter_for_native.dart` now import
+  `error_report_obj.dart` and `error_reporter_config.dart` directly instead of the barrel file.
+* Added dartdoc comments to all public API members (`allowReporting` field,
+  `ErrorReportObj` fields).
+
 ## 1.0.0 (2026-05-03)
 
 * Initial release as a standalone package, extracted from `simple_jwt_manager`.

@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:simple_error_reporter/simple_error_reporter.dart';
+import 'package:simple_error_reporter/src/error_report_obj.dart';
+import 'package:simple_error_reporter/src/error_reporter_config.dart';
 import 'package:simple_https_service/simple_https_service.dart';
 
 /// (en) An error reporting class for native devices.
@@ -31,7 +32,9 @@ class ErrorReporterForNative {
   bool _avoidDuplicate = true;
   final Set<String> _sentErrorHashes = {};
 
-  // Flag to allow reporting.
+  /// (en) Set to false to suppress all error reporting and disable onSendFailure.
+  ///
+  /// (ja) falseに設定するとエラーの送信とonSendFailureの呼び出しが抑制されます。
   bool allowReporting = true;
 
   bool _isInitialized = false;
