@@ -131,7 +131,8 @@ void main() {
         called = true;
         return false;
       };
-      ErrorReporterConfig().retryCondition!('https://example.com',
+      ErrorReporterConfig().retryCondition!(
+          'https://example.com',
           ServerResponse(null, EnumServerResponseStatus.otherError, null, null),
           null);
       expect(called, isTrue);

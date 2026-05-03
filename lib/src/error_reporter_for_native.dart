@@ -115,7 +115,8 @@ class ErrorReporterForNative {
     void Function(FlutterErrorDetails)? flutterErrorOnError,
     bool Function(Object, StackTrace)? platformDispatcherOnError,
   }) {
-    assert(!_isInitialized, 'ErrorReporterForNative.init() must only be called once.');
+    assert(!_isInitialized,
+        'ErrorReporterForNative.init() must only be called once.');
     _endpointUrl = endpointUrl;
     _appVersion = appVersion;
     _rateLimitWindow = rateLimitWindow ?? Duration(seconds: 60);
