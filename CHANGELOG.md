@@ -1,3 +1,7 @@
+## 1.0.2 (2026-05-04)
+
+* The static analysis on pub.dev failed, so we're redeploying.
+
 ## 1.0.1 (2026-05-03)
 
 * Fixed circular import: `error_reporter.dart` and `error_reporter_for_native.dart` now import
