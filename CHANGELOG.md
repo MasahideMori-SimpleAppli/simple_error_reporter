@@ -1,6 +1,6 @@
 ## 1.0.2 (2026-05-04)
 
-* The static analysis on pub.dev failed, so we're redeploying.
+* Redeploy to fix pub.dev scores affected by a static analysis outage.
 
 ## 1.0.1 (2026-05-03)
 
