@@ -1,6 +1,6 @@
 name: simple_error_reporter
 description: "A Flutter package for reporting errors to a backend server with rate limiting and deduplication."
-version: 1.0.2
+version: 1.0.3
 repository: https://github.com/MasahideMori-SimpleAppli/simple_error_reporter
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  simple_https_service: ^1.0.0
+  simple_https_service: ^2.0.0
 
 dev_dependencies:
   flutter_test:

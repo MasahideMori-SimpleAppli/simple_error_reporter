@@ -1,3 +1,13 @@
+## 1.0.3 (2026-05-15)
+
+* Bumped `simple_https_service` constraint to `^2.0.0` to follow the
+  upstream package's 2.0.0 release. No API changes in this package.
+  Note that `simple_https_service` 2.0.0 added the
+  `EnumServerResponseStatus.cancelled` value; this package's send path
+  (`response.resultStatus != EnumServerResponseStatus.success`) treats
+  a cancelled response as a send failure and invokes `onSendFailure`,
+  which is the intended behavior for error reporting.
+
 ## 1.0.2 (2026-05-04)
 
 * Redeploy to fix pub.dev scores affected by a static analysis outage.
