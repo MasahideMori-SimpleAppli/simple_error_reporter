@@ -6,6 +6,7 @@ void main() {
   group('ErrorReportObj', () {
     test('toDict returns all expected keys', () {
       final obj = ErrorReportObj(
+        'Test App',
         '1.0.0',
         'Test error',
         '#0 main.dart',
@@ -14,6 +15,7 @@ void main() {
         {'location': 'HomeScreen'},
       );
       final dict = obj.toDict();
+      expect(dict['app_name'], 'Test App');
       expect(dict['app_version'], '1.0.0');
       expect(dict['error_msg'], 'Test error');
       expect(dict['stacktrace'], '#0 main.dart');
@@ -23,8 +25,8 @@ void main() {
     });
 
     test('toDict handles null optional fields', () {
-      final obj = ErrorReportObj(
-          '1.0.0', 'error', null, '2026-05-03T00:00:00.000', null, null);
+      final obj = ErrorReportObj('Test App', '1.0.0', 'error', null,
+          '2026-05-03T00:00:00.000', null, null);
       final dict = obj.toDict();
       expect(dict['stacktrace'], isNull);
       expect(dict['extra_info'], isNull);

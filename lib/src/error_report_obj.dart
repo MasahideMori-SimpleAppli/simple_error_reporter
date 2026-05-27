@@ -4,6 +4,10 @@
 /// (ja) ErrorReporter、及びErrorReporterForNativeで利用される
 /// 基本的なエラー内容を格納するためのオブジェクトです。
 class ErrorReportObj {
+  /// (en) Frontend app name.
+  /// (ja) フロントエンドのアプリ名。
+  final String appName;
+
   /// (en) Frontend app version.
   /// (ja) フロントエンドのアプリバージョン。
   final String appVersion;
@@ -28,6 +32,7 @@ class ErrorReportObj {
   /// (ja) 個別エラー報告時に追加される付加情報。
   final Map<String, dynamic>? customExtraInfo;
 
+  /// * [appName] : Frontend app name.
   /// * [appVersion] : Frontend app version.
   /// * [errorMsg] : The error message.
   /// * [stackTrace] : The stacktrace.
@@ -37,7 +42,7 @@ class ErrorReportObj {
   /// during initialization, such as the app's platform information.
   /// * [customExtraInfo] : When reporting an individual error,
   /// additional information, such as the location of the error, is added.
-  ErrorReportObj(this.appVersion, this.errorMsg, this.stackTrace,
+  ErrorReportObj(this.appName, this.appVersion, this.errorMsg, this.stackTrace,
       this.timestamp, this.extraInfo, this.customExtraInfo);
 
   /// (en) Convert to dict.
@@ -45,6 +50,7 @@ class ErrorReportObj {
   /// (ja) 辞書に変換して返します。
   Map<String, dynamic> toDict() {
     return {
+      "app_name": appName,
       "app_version": appVersion,
       "error_msg": errorMsg,
       "stacktrace": stackTrace,

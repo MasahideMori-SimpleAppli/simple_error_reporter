@@ -21,6 +21,7 @@ void main() async {
   // Automatically catches Flutter and platform errors after init.
   ErrorReporter().init(
     endpointUrl: errorReportURL,
+    appName: 'Test App',
     appVersion: '1.0.0',
     extraInfo: {'platform': 'web'},
   );

@@ -27,10 +27,11 @@
 
 ```json
 {
+  "app_name": "my_app",
   "app_version": "1.0.0",
   "error_msg": "Exception: something went wrong",
   "stacktrace": "#0 ...",
-  "timestamp": "2026-05-03T03:00:00.000Z",
+  "timestamp": "2026-05-27T03:00:00.000Z",
   "extra_info": {"platform": "web"},
   "custom_extra_info": {"location": "HomeScreen"}
 }
@@ -52,6 +53,7 @@ void main() async {
   // init後、FlutterおよびPlatformエラーを自動でキャッチします。
   ErrorReporter().init(
     endpointUrl: 'https://your-endpoint.example.com/errors',
+    appName: 'my_app',
     appVersion: '1.0.0',
     extraInfo: {'platform': 'web'},
   );
@@ -67,6 +69,7 @@ import 'package:simple_error_reporter/simple_error_reporter.dart';
 
 ErrorReporterForNative().init(
   endpointUrl: 'https://your-endpoint.example.com/errors',
+  appName: 'my_app',
   appVersion: '1.0.0',
   badCertificateCallback: (cert, host, port) => true,
 );
@@ -115,6 +118,7 @@ import 'package:simple_error_reporter/simple_error_reporter.dart';
 
 ErrorReporter().init(
   endpointUrl: 'https://your-endpoint.example.com/errors',
+  appName: 'my_app',
   appVersion: '1.0.0',
   onSendFailure: (reportData) async {
     // TODO: 後でリトライできるようにreportDataをローカルストレージに保存。

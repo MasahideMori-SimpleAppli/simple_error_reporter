@@ -14,6 +14,7 @@ class ErrorReporter {
   ErrorReporter._internal();
 
   String? _endpointUrl;
+  String? _appName;
   String? _appVersion;
   Map<String, dynamic>? _extraInfo;
 
@@ -47,6 +48,7 @@ class ErrorReporter {
   ///
   /// * [endpointUrl] : The endpoint to which error information is sent.
   /// The information sent is JSON and includes the ErrorReportObj params.
+  /// * [appName] : Frontend app name information.
   /// * [appVersion] : Frontend app version information.
   /// * [rateLimitWindow] : A unit of time for limiting the amount of
   /// error reporting. The default value is Duration(seconds: 60).
@@ -91,6 +93,7 @@ class ErrorReporter {
   /// will be used as the return value of PlatformDispatcher.instance.onError.
   void init(
       {required String endpointUrl,
+      required String appName,
       required String appVersion,
       Duration? rateLimitWindow,
       int? maxReportsPerWindow,
@@ -108,6 +111,7 @@ class ErrorReporter {
       bool Function(Object, StackTrace)? platformDispatcherOnError}) {
     assert(!_isInitialized, 'ErrorReporter.init() must only be called once.');
     _endpointUrl = endpointUrl;
+    _appName = appName;
     _appVersion = appVersion;
     _rateLimitWindow = rateLimitWindow ?? Duration(seconds: 60);
     _maxReportsPerWindow = maxReportsPerWindow ?? 3;
@@ -262,6 +266,7 @@ class ErrorReporter {
 
       // 送信データを設定。
       final Map<String, dynamic> reportData = ErrorReportObj(
+              _appName!,
               _appVersion!,
               error.toString(),
               stackTrace?.toString(),
