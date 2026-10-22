@@ -9,7 +9,7 @@
 
 2つの実装が用意されています：
 - `ErrorReporter`: WebとNativeの両プラットフォームで動作します。
-- `ErrorReporterForNative`: Native専用で、`badCertificateCallback`による自己署名証明書のサポートがあります。
+- `ErrorReporterForNative`: Native専用で、`securityContext` または `badCertificateCallback` による自己署名証明書のサポートがあります。
 
 ## 機能
 - `FlutterError.onError` および `PlatformDispatcher.instance.onError` による自動エラーキャッチ
@@ -64,16 +64,34 @@ void main() async {
 
 ### 自己署名証明書を使ったNative専用
 
+`ErrorReporterForNative` は `securityContext` と `badCertificateCallback` を受け取り、`simple_https_service` の `HttpsServiceForNative` に渡します。
+サーバー証明書（PEM形式。**秘密鍵は絶対に含めないこと**）をassetsに同梱し、条件に応じて以下のいずれかの方法を選びます。
+詳細は [`simple_https_service`](https://pub.dev/packages/simple_https_service) のREADMEを参照してください。
+
+| 条件 | 方法 |
+|---|---|
+| サーバーのホスト名またはIPが固定で、証明書のSANに含められる（推奨） | `securityContext` + `UtilSecurityContext` |
+| サーバーのIPが変わる可能性があり（DHCPなど）、SANを固定できない | `badCertificateCallback` + `CertificatePinner` |
+
 ```dart
 import 'package:simple_error_reporter/simple_error_reporter.dart';
+import 'package:simple_https_service/simple_https_service.dart';
 
 ErrorReporterForNative().init(
-  endpointUrl: 'https://your-endpoint.example.com/errors',
+  endpointUrl: 'https://192.168.1.1/errors',
   appName: 'my_app',
   appVersion: '1.0.0',
-  badCertificateCallback: (cert, host, port) => true,
+  // 推奨：通常の検証が行われます（ホスト名や有効期限も検証）。
+  securityContext:
+      await UtilSecurityContext.fromAsset('assets/certs/local_server.pem'),
+  // SANを固定できない場合は代わりにこちらを使用します：
+  // badCertificateCallback:
+  //     (await CertificatePinner.fromAsset('assets/certs/local_server.pem')).check,
 );
 ```
+
+> **Warning**  
+> `badCertificateCallback` で無条件に `true` を返すとSSL検証が無視されます。本番環境（Releaseモード）での利用や、信頼できないネットワーク環境での使用は避けてください。
 
 ### 手動エラー報告
 

@@ -1,5 +1,3 @@
-// import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:simple_error_reporter/simple_error_reporter.dart';
 
@@ -32,16 +30,21 @@ void main() async {
 
   // For native device only.
   // This version can support self-signed certificates.
+  // Recommended: trust the bundled certificate with normal verification
+  // (host name and expiry are checked).
+  // UtilSecurityContext requires
+  // import 'package:simple_https_service/simple_https_service.dart';
+  // If the certificate's SAN cannot be fixed (e.g. the server's IP changes),
+  // use badCertificateCallback with CertificatePinner instead.
+  // Warning: Unconditionally returning true in badCertificateCallback
+  // bypasses SSL verification. Avoid it in production.
   // ErrorReporterForNative().init(
   //   endpointUrl: errorReportURL,
+  //   appName: 'Test App',
   //   appVersion: '1.0.0',
   //   extraInfo: {'platform': 'Android'},
-  //   badCertificateCallback: (X509Certificate cert, String host, int port) {
-  //     // TODO
-  //     // The condition is checked here, and if it returns true,
-  //     // self-signed certificates are allowed.
-  //     return true;
-  //   },
+  //   securityContext: await UtilSecurityContext.fromAsset(
+  //       'assets/certs/local_server.pem'),
   // );
 
   runApp(const MyApp());

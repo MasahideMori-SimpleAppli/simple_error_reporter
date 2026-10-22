@@ -65,8 +65,19 @@ class ErrorReporterForNative {
   /// you can add an action to save the reportData to storage.
   /// * [getJWT] : If you need authenticated error reporting,
   /// you can add a function to get the token.
-  /// * [badCertificateCallback] : Returns true if you are using a local server
-  /// that uses a self-signed certificate.
+  /// * [badCertificateCallback] : A callback invoked when an invalid SSL certificate
+  /// is encountered. Return `true` to accept the certificate (e.g., for self-signed
+  /// certificates during local development), or `false` to reject it.
+  /// CertificatePinner of simple_https_service can be used here.
+  ///
+  ///   **Warning:** Unconditionally returning `true` bypasses SSL verification and
+  ///   introduces security risks in production environments.
+  ///
+  /// * [securityContext] : The SecurityContext used for TLS verification.
+  /// If null, SecurityContext.defaultContext is used.
+  /// To trust a self-signed certificate while keeping normal verification
+  /// (including host name and expiry), use UtilSecurityContext of
+  /// simple_https_service.
   /// * [connectionTimeout] : The connection timeout.
   /// * [responseTimeout] : The response timeout.
   /// * [adjustTiming] : Specify true to automatically adjust the timing.
@@ -111,6 +122,7 @@ class ErrorReporterForNative {
     Future<String> Function()? getJWT,
     bool Function(X509Certificate cert, String host, int port)?
         badCertificateCallback,
+    SecurityContext? securityContext,
     Duration connectionTimeout = const Duration(seconds: 30),
     Duration responseTimeout = const Duration(seconds: 60),
     bool adjustTiming = false,
@@ -150,6 +162,7 @@ class ErrorReporterForNative {
       reportError(details.exception, details.stack,
           getJWT: getJWT,
           badCertificateCallback: badCertificateCallback,
+          securityContext: securityContext,
           connectionTimeout: connectionTimeout,
           responseTimeout: responseTimeout,
           adjustTiming: adjustTiming,
@@ -163,6 +176,7 @@ class ErrorReporterForNative {
       reportError(error, stack,
           getJWT: getJWT,
           badCertificateCallback: badCertificateCallback,
+          securityContext: securityContext,
           connectionTimeout: connectionTimeout,
           responseTimeout: responseTimeout,
           adjustTiming: adjustTiming,
@@ -204,8 +218,19 @@ class ErrorReporterForNative {
   /// The all values must be stringifiable.
   /// * [getJWT] : If you need authenticated error reporting,
   /// you can add a function to get the token.
-  /// * [badCertificateCallback] : Returns true if you are using a local server
-  /// that uses a self-signed certificate.
+  /// * [badCertificateCallback] : A callback invoked when an invalid SSL certificate
+  /// is encountered. Return `true` to accept the certificate (e.g., for self-signed
+  /// certificates during local development), or `false` to reject it.
+  /// CertificatePinner of simple_https_service can be used here.
+  ///
+  ///   **Warning:** Unconditionally returning `true` bypasses SSL verification and
+  ///   introduces security risks in production environments.
+  ///
+  /// * [securityContext] : The SecurityContext used for TLS verification.
+  /// If null, SecurityContext.defaultContext is used.
+  /// To trust a self-signed certificate while keeping normal verification
+  /// (including host name and expiry), use UtilSecurityContext of
+  /// simple_https_service.
   /// * [connectionTimeout] : The connection timeout.
   /// * [responseTimeout] : The response timeout.
   /// * [adjustTiming] : Specify true to automatically adjust the timing.
@@ -234,6 +259,7 @@ class ErrorReporterForNative {
       Future<String> Function()? getJWT,
       bool Function(X509Certificate cert, String host, int port)?
           badCertificateCallback,
+      SecurityContext? securityContext,
       Duration connectionTimeout = const Duration(seconds: 30),
       Duration responseTimeout = const Duration(seconds: 60),
       bool adjustTiming = false,
@@ -304,6 +330,7 @@ class ErrorReporterForNative {
             _endpointUrl!, reportData, EnumPostEncodeType.json,
             jwt: jwt,
             badCertificateCallback: badCertificateCallback,
+            securityContext: securityContext,
             connectionTimeout: connectionTimeout,
             responseTimeout: responseTimeout,
             adjustTiming: adjustTiming,

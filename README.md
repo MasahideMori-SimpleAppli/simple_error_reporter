@@ -9,7 +9,7 @@ It includes rate limiting, duplicate error filtering, and consent-based reportin
 
 Two implementations are provided:
 - `ErrorReporter`: Works on both web and native platforms.
-- `ErrorReporterForNative`: Native-only, with support for self-signed certificates via `badCertificateCallback`.
+- `ErrorReporterForNative`: Native-only, with support for self-signed certificates via `securityContext` or `badCertificateCallback`.
 
 ## Features
 - Automatic Flutter and platform error catching via `FlutterError.onError` and `PlatformDispatcher.instance.onError`
@@ -64,16 +64,34 @@ void main() async {
 
 ### Native-only with self-signed certificate
 
+`ErrorReporterForNative` accepts `securityContext` and `badCertificateCallback`, which are passed to `HttpsServiceForNative` of `simple_https_service`.
+Bundle the server certificate (PEM, **never the private key**) in your assets, then choose one of the following methods.
+See the README of [`simple_https_service`](https://pub.dev/packages/simple_https_service) for details.
+
+| Condition | Method |
+|---|---|
+| The server's host name or IP is fixed and included in the certificate's SAN (recommended) | `securityContext` + `UtilSecurityContext` |
+| The server's IP may change (e.g. DHCP), so the SAN cannot be fixed | `badCertificateCallback` + `CertificatePinner` |
+
 ```dart
 import 'package:simple_error_reporter/simple_error_reporter.dart';
+import 'package:simple_https_service/simple_https_service.dart';
 
 ErrorReporterForNative().init(
-  endpointUrl: 'https://your-endpoint.example.com/errors',
+  endpointUrl: 'https://192.168.1.1/errors',
   appName: 'my_app',
   appVersion: '1.0.0',
-  badCertificateCallback: (cert, host, port) => true,
+  // Recommended: normal verification (host name and expiry are checked).
+  securityContext:
+      await UtilSecurityContext.fromAsset('assets/certs/local_server.pem'),
+  // If the SAN cannot be fixed, use this instead:
+  // badCertificateCallback:
+  //     (await CertificatePinner.fromAsset('assets/certs/local_server.pem')).check,
 );
 ```
+
+> **Warning**  
+> Unconditionally returning `true` in `badCertificateCallback` bypasses SSL verification. Avoid using this in production environments (Release mode) or on untrusted networks.
 
 ### Manual error reporting
 
